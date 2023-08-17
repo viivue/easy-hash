@@ -5,7 +5,7 @@ import {fireEvent} from "./helpers";
  */
 class HashManager{
     constructor(){
-        this.eventList = [];
+        this.callbacks = [];
         this.data = {
             previousHash: "",
             currentHash: ""
@@ -39,12 +39,12 @@ class HashManager{
      * Get current hash
      */
     getHash(){
-        return window.location.hash ? window.location.hash : null;
+        return window.location.hash;
     }
 
     on(type, callback){
         if(type === 'change'){
-            this.eventList.push(callback);
+            this.callbacks.push(callback);
         }else{
             console.warn(`Event "${type}" is not recognized!`);
         }
