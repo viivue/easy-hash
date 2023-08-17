@@ -43,7 +43,7 @@ const inputAddHash = document.querySelector('input[name="add-hash"]');
 document.querySelectorAll('.btn').forEach(btn => {
     btn.addEventListener('click', e => {
         const state = btn.getAttribute('data-btn');
-        console.log(window.HashManager)
+
         switch(state){
             case "add":
                 window.HashManager.add(inputAddHash.value);

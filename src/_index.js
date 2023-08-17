@@ -20,6 +20,17 @@ class HashManager{
      * @param hash
      */
     add(hash){
+        hash.replaceAll()
+
+        // Check if the hash is a valid string
+        if(typeof hash !== 'string'){
+            console.warn("Invalid hash. Hash must be a string.");
+        }
+
+        // Check if the hash is not empty
+        if(hash.trim() === ''){
+            console.warn("Invalid hash. Hash cannot be empty.");
+        }
         this.data.previousHash = this.getHash();
         this.data.currentHash = hash;
         window.location.hash = hash;
