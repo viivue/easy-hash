@@ -1,64 +1,60 @@
-import {uniqueId} from "./utils";
-
+import {fireEvent} from "./helpers";
 
 /**
  * Private class
  */
-class Wellii{
-    constructor(options){
-        this.id = uniqueId();
-        this.options = {
-            el: undefined,
-            ...options
+class HashManager{
+    constructor(){
+        this.eventList = [];
+        this.data = {
+            previousHash: "",
+            currentHash: ""
         };
 
-        this.options.el.innerHTML = 'Hello!';
+        // event: execute when change hash
+        fireEvent(this)
+    }
+
+    /**
+     * Add new hash
+     * @param hash
+     */
+    add(hash){
+        this.data.previousHash = this.getHash();
+        this.data.currentHash = hash;
+        window.location.hash = hash;
+    }
+
+    /**
+     * Remove current hash
+     */
+    remove(){
+        this.data.previousHash = this.getHash();
+        window.location.hash = "";
+        history.replaceState(null, null, window.location.pathname);
+        this.data.currentHash = "";
+    }
+
+    /**
+     * Get current hash
+     */
+    getHash(){
+        return window.location.hash ? window.location.hash : null;
+    }
+
+    on(type, callback){
+        if(type === 'change'){
+            this.eventList.push(callback);
+        }else{
+            console.warn(`Event "${type}" is not recognized!`);
+        }
     }
 }
-
-
-/**
- * Private class Controller
- * This class will hold instances of the library's objects
- */
-class Controller{
-    constructor(){
-        this.instances = [];
-    }
-
-    add(instance){
-        this.instances.push(instance);
-    }
-
-    get(id){
-        return this.instances.filter(instance => instance.id === id)[0];
-    }
-}
-
-
-/**
- * Public library data
- * access via window.WelliiController
- */
-window.WelliiController = new Controller();
 
 
 /**
  * Public library object
- * access via window.Wellii
+ * access via window.HashManager
  */
-window.Wellii = {
-    // init new instances
-    init: (options = {}) => {
-        const selector = options.selector || '[data-wellii]';
+window.HashManager = new HashManager();
 
-        // init with selector
-        document.querySelectorAll(selector).forEach(el => {
-            window.WelliiController.add(new Wellii({el, ...options}));
-        });
-    },
-    // Get instance object by ID
-    get: id => window.WelliiController.get(id)
-};
-
-window.Wellii.init();

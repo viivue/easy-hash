@@ -1,14 +1,13 @@
 {
-  "name": "wellii",
-  "outputFilename": "wellii",
-  "prettyName": "Wellii - Webpack Library Boilerplate",
-  "codeName": "Wellii",
-  "version": "0.0.3",
-  "description": "A boilerplate to build JavaScript library with ES6 module and UMD version.",
-  "homepage": "https://github.com/phucbm/wellii",
+  "name": "easy-hash",
+  "outputFilename": "easy-hash",
+  "prettyName": "Easy-hash",
+  "codeName": "easy-hash",
+  "version": "beta",
+  "homepage": "https://github.com/phucbm/easy-hash",
   "repository": {
     "type": "git",
-    "url": "git@github.com:phucbm/wellii"
+    "url": "git@github.com:phucbm/easy-hash"
   },
   "author": {
     "name": "phucbm",
@@ -19,7 +18,7 @@
     "javascript",
     "es6"
   ],
-  "main": "./dist/wellii.module.js",
+  "main": "./dist/easy-hash.module.js",
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve --config config/webpack.dev.js",
