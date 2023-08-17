@@ -20,20 +20,16 @@ class HashManager{
      * @param hash
      */
     add(hash){
-
-
         if(typeof hash !== 'object'){
             this.data.previousHash = this.getHash();
-            if(hash === ""){
-                this.data.currentHash = "";
-                history.replaceState(null, null, window.location.pathname);
-            }else{
-                const splitHash = hash.split('#');
-                this.data.currentHash = `${splitHash[0] === "" ? hash : `#${hash}`}`;
-                history.replaceState(null, null, this.data.currentHash);
-            }
+
+            const splitHash = hash.split('#');
+            this.data.currentHash = hash === "" ? "" : `${splitHash[0] === "" ? hash : `#${hash}`}`;
+            history.replaceState(null, null, hash === "" ? window.location.pathname : this.data.currentHash);
         }else{
             this.data.previousHash = window.location.hash;
+
+            // convert object to string
             const hashObject = [];
             for(const [key, value] of Object.entries(hash)){
                 hashObject.push(`${key}=${value}`);
@@ -54,6 +50,7 @@ class HashManager{
         this.data.previousHash = this.getHash();
         history.replaceState(null, null, window.location.pathname);
         this.data.currentHash = "";
+
         fireEvent(this);
     }
 
@@ -69,20 +66,17 @@ class HashManager{
 
         const splitParams = getParams[1].split("&") ? getParams[1].split("&") : getParams[1];
 
-
         if(splitParams.length === 1){
             return `#${splitParams[0]}`;
         }
 
+        // Covert array to object
         const values = [];
         splitParams.forEach(param => {
             const newParam = param.split("=");
             values.push({"key": newParam[0], "value": newParam[1]})
         })
-
-        // Return object
-        return values.reduce(
-            (obj, item) => Object.assign(obj, {[item.key]: item.value}), {});
+        return values.reduce((obj, item) => Object.assign(obj, {[item.key]: item.value}), {});
 
     }
 
