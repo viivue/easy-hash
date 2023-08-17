@@ -46,7 +46,8 @@ document.querySelectorAll('.btn').forEach(btn => {
 
         switch(state){
             case "add":
-                window.HashManager.add(inputAddHash.value);
+                // window.HashManager.add(inputAddHash.value);
+                window.HashManager.add({a: 1, b: 2});
                 break;
             case "remove":
                 window.HashManager.remove();

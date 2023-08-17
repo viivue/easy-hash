@@ -12,7 +12,7 @@ class HashManager{
         };
 
         // event: execute when change hash
-        fireEvent(this)
+        fireEvent(this);
     }
 
     /**
@@ -20,20 +20,31 @@ class HashManager{
      * @param hash
      */
     add(hash){
-        hash.replaceAll()
 
-        // Check if the hash is a valid string
-        if(typeof hash !== 'string'){
-            console.warn("Invalid hash. Hash must be a string.");
+
+        if(typeof hash !== 'object'){
+            this.data.previousHash = this.getHash();
+            if(hash === ""){
+                this.data.currentHash = "";
+                history.replaceState(null, null, window.location.pathname);
+            }else{
+                const splitHash = hash.split('#');
+                this.data.currentHash = `${splitHash[0] === "" ? hash : `#${hash}`}`;
+                history.replaceState(null, null, this.data.currentHash);
+            }
+        }else{
+            this.data.previousHash = window.location.hash;
+            const hashObject = [];
+            for(const [key, value] of Object.entries(hash)){
+                hashObject.push(`${key}=${value}`);
+            }
+            const getHashObject = hashObject.toString().replace(",", "&");
+
+            this.data.currentHash = `#${getHashObject}`;
+            history.replaceState(null, null, `#${getHashObject}`);
         }
 
-        // Check if the hash is not empty
-        if(hash.trim() === ''){
-            console.warn("Invalid hash. Hash cannot be empty.");
-        }
-        this.data.previousHash = this.getHash();
-        this.data.currentHash = hash;
-        window.location.hash = hash;
+        fireEvent(this);
     }
 
     /**
@@ -41,16 +52,38 @@ class HashManager{
      */
     remove(){
         this.data.previousHash = this.getHash();
-        window.location.hash = "";
         history.replaceState(null, null, window.location.pathname);
         this.data.currentHash = "";
+        fireEvent(this);
     }
 
     /**
      * Get current hash
      */
     getHash(){
-        return window.location.hash;
+        if(window.location.hash === ''){
+            return "";
+        }
+
+        const getParams = window.location.hash.split("#");
+
+        const splitParams = getParams[1].split("&") ? getParams[1].split("&") : getParams[1];
+
+
+        if(splitParams.length === 1){
+            return `#${splitParams[0]}`;
+        }
+
+        const values = [];
+        splitParams.forEach(param => {
+            const newParam = param.split("=");
+            values.push({"key": newParam[0], "value": newParam[1]})
+        })
+
+        // Return object
+        return values.reduce(
+            (obj, item) => Object.assign(obj, {[item.key]: item.value}), {});
+
     }
 
     on(type, callback){

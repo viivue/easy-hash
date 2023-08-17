@@ -3,7 +3,7 @@
  * @param context
  */
 export function fireEvent(context){
-    window.addEventListener("hashchange", () => {
+    if(context.data.previousHash !== context.data.currentHash){
         context.callbacks.forEach(callback => callback(context.data))
-    })
+    }
 }
