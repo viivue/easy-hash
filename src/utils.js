@@ -106,3 +106,17 @@ export function uniqueId(prefix = ''){
     return prefix + (+new Date()).toString(16) +
         (Math.random() * 100000000 | 0).toString(16);
 }
+
+/**
+ * Convert an array to an object
+ */
+export function convertArrayToObject(arrayParams) {
+    // Covert array to object
+    const values = [];
+    arrayParams.forEach(param => {
+        const newParam = param.split("=");
+        values.push({"key": newParam[0], "value": newParam[1]})
+    })
+    return values.reduce((obj, item) => Object.assign(obj, {[item.key]: item.value}), {});
+}
+

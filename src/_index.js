@@ -1,4 +1,5 @@
 import {fireEvent} from "./helpers";
+import {convertArrayToObject} from "@/utils";
 
 /**
  * Private class
@@ -20,14 +21,8 @@ class HashManager{
      * @param hash
      */
     add(hash){
-        if(typeof hash !== 'object'){
-            this.data.previousHash = this.getHash();
-
-            const splitHash = hash.split('#');
-            this.data.currentHash = hash === "" ? "" : `${splitHash[0] === "" ? hash : `#${hash}`}`;
-            history.replaceState(null, null, hash === "" ? window.location.pathname : this.data.currentHash);
-        }else{
-            this.data.previousHash = window.location.hash;
+        this.data.previousHash = window.location.hash;
+        if(typeof hash === 'object'){
 
             // convert object to string
             const hashObject = [];
@@ -38,6 +33,18 @@ class HashManager{
 
             this.data.currentHash = `#${getHashObject}`;
             history.replaceState(null, null, `#${getHashObject}`);
+        }else{
+
+            const splitHash = hash.split('#');
+
+            if(hash === ""){
+                this.data.currentHash = "";
+            }else{
+                this.data.currentHash = `${splitHash[0] === "" ? hash : `#${hash}`}`
+            }
+
+            history.replaceState(null, null, hash === "" ? window.location.pathname : this.data.currentHash);
+
         }
 
         fireEvent(this);
@@ -47,7 +54,7 @@ class HashManager{
      * Remove current hash
      */
     remove(){
-        this.data.previousHash = this.getHash();
+        this.data.previousHash = window.location.hash;
         history.replaceState(null, null, window.location.pathname);
         this.data.currentHash = "";
 
@@ -59,24 +66,21 @@ class HashManager{
      */
     getHash(){
         if(window.location.hash === ''){
-            return "";
+            return '';
         }
 
         const getParams = window.location.hash.split("#");
 
-        const splitParams = getParams[1].split("&") ? getParams[1].split("&") : getParams[1];
+        // params contains '&' => object, not contain '&' => string
+        const splitParams = getParams[1].split('&') ? getParams[1].split('&') : getParams[1];
 
+        // params is a string
         if(splitParams.length === 1){
             return `#${splitParams[0]}`;
         }
 
-        // Covert array to object
-        const values = [];
-        splitParams.forEach(param => {
-            const newParam = param.split("=");
-            values.push({"key": newParam[0], "value": newParam[1]})
-        })
-        return values.reduce((obj, item) => Object.assign(obj, {[item.key]: item.value}), {});
+
+        return convertArrayToObject(splitParams);
 
     }
 
