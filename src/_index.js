@@ -1,5 +1,5 @@
 import {fireEvent} from "./helpers";
-import {convertArrayToObject} from "@/utils";
+import {convertArrayToObject, convertObjectToQueryString} from "@/utils";
 
 /**
  * Private class
@@ -11,9 +11,6 @@ class HashManager{
             previousHash: "",
             currentHash: ""
         };
-
-        // event: execute when change hash
-        fireEvent(this);
     }
 
     /**
@@ -21,31 +18,41 @@ class HashManager{
      * @param hash
      */
     add(hash){
-        this.data.previousHash = window.location.hash;
-        if(typeof hash === 'object'){
 
-            // convert object to string
-            const hashObject = [];
-            for(const [key, value] of Object.entries(hash)){
-                hashObject.push(`${key}=${value}`);
-            }
-            const getHashObject = hashObject.toString().replace(",", "&");
+        // validate hash
+        if(!hash && hash !== '') return;
 
-            this.data.currentHash = `#${getHashObject}`;
-            history.replaceState(null, null, `#${getHashObject}`);
+        // hash is empty string "" => remove hash
+        if(hash === ''){
+            this.remove();
+            return;
+        }
+
+        // hash is object (not array)
+        if(typeof hash === 'object' && !Array.isArray(hash)){
+
+            // convertObjectToQueryString() => {a:1,b:1} => hash = "a=1&b=2"
+            hash = convertObjectToQueryString(hash);
+
+        }else if(typeof hash === 'string'){
+
+            // hash is string => remove the 1st "#" if any => hash = "something"
+            // #123 => 123
+            const firstChar = hash.split("")[0];
+            hash = firstChar === "#" ? hash.substring(1) : hash;
+
         }else{
 
-            const splitHash = hash.split('#');
-
-            if(hash === ""){
-                this.data.currentHash = "";
-            }else{
-                this.data.currentHash = `${splitHash[0] === "" ? hash : `#${hash}`}`
-            }
-
-            history.replaceState(null, null, hash === "" ? window.location.pathname : this.data.currentHash);
-
+            // else, other types => hash = toString()
+            hash = hash.toString();
         }
+
+        // add new hash to URL (using replaceState to avoid adding new history entry
+        history.replaceState(null, null, `#${hash}`);
+
+        // update data
+        this.data.previousHash = this.data.currentHash;
+        this.data.currentHash = hash;
 
         fireEvent(this);
     }
@@ -54,8 +61,12 @@ class HashManager{
      * Remove current hash
      */
     remove(){
-        this.data.previousHash = window.location.hash;
+
+        // reset current URL to origin URL
         history.replaceState(null, null, window.location.pathname);
+
+        // update data
+        this.data.previousHash = this.data.currentHash;
         this.data.currentHash = "";
 
         fireEvent(this);

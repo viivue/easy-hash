@@ -108,9 +108,10 @@ export function uniqueId(prefix = ''){
 }
 
 /**
- * Convert an array to an object
+ * Convert array to object
+ * [a, 1, b, 2] => {a: 1, b: 2}
  */
-export function convertArrayToObject(arrayParams) {
+export function convertArrayToObject(arrayParams){
     // Covert array to object
     const values = [];
     arrayParams.forEach(param => {
@@ -120,3 +121,14 @@ export function convertArrayToObject(arrayParams) {
     return values.reduce((obj, item) => Object.assign(obj, {[item.key]: item.value}), {});
 }
 
+/**
+ * Convert object to query string
+ * {a: 1, b: 2} => a=1&b=2
+ */
+export function convertObjectToQueryString(hash){
+    const hashObject = [];
+    for(const [key, value] of Object.entries(hash)){
+        hashObject.push(`${key}=${value}`);
+    }
+    return hashObject.toString().replace(",", "&");
+}
