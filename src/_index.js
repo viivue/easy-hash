@@ -79,7 +79,7 @@ class HashManager{
             return `#${splitParams[0]}`;
         }
 
-
+        // params is an array
         return convertArrayToObject(splitParams);
 
     }
