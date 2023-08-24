@@ -1,5 +1,5 @@
 import {fireEvent} from "./helpers";
-import {convertArrayToObject, convertObjectToQueryString} from "@/utils";
+import {convertObjectToQueryString} from "./utils";
 
 /**
  * Private class
@@ -18,7 +18,6 @@ class HashManager{
      * @param hash
      */
     add(hash){
-
         // validate hash
         if(!hash && hash !== '') return;
 
@@ -30,7 +29,6 @@ class HashManager{
 
         // hash is object (not array)
         if(typeof hash === 'object' && !Array.isArray(hash)){
-
             // convertObjectToQueryString() => {a:1,b:1} => hash = "a=1&b=2"
             hash = convertObjectToQueryString(hash);
 
@@ -61,7 +59,6 @@ class HashManager{
      * Remove current hash
      */
     remove(){
-
         // reset current URL to origin URL
         history.replaceState(null, null, window.location.pathname);
 
@@ -76,23 +73,23 @@ class HashManager{
      * Get current hash
      */
     getHash(){
-        if(window.location.hash === ''){
-            return '';
-        }
-
-        const getParams = window.location.hash.split("#");
-
-        // params contains '&' => object, not contain '&' => string
-        const splitParams = getParams[1].split('&') ? getParams[1].split('&') : getParams[1];
-
-        // params is a string
-        if(splitParams.length === 1){
-            return `#${splitParams[0]}`;
-        }
-
-        // params is an array
-        return convertArrayToObject(splitParams);
-
+        return window.location.hash;
+        // if(window.location.hash === ''){
+        //     return '';
+        // }
+        //
+        // const getParams = window.location.hash.split("#");
+        //
+        // // params contains '&' => object, not contain '&' => string
+        // const splitParams = getParams[1].split('&') ? getParams[1].split('&') : getParams[1];
+        //
+        // // params is a string
+        // if(splitParams.length === 1){
+        //     return `#${splitParams[0]}`;
+        // }
+        //
+        // // params is an array
+        // return convertArrayToObject(splitParams);
     }
 
     on(type, callback){
@@ -109,5 +106,5 @@ class HashManager{
  * Public library object
  * access via window.HashManager
  */
-window.HashManager = new HashManager();
+window.EasyHash = new HashManager();
 
