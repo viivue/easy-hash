@@ -5,17 +5,17 @@
   "codeName": "EasyHash",
   "version": "0.0.1",
   "description": "Customizing hash is easier than ever.",
-  "homepage": "https://github.com/phucbm/easy-hash",
+  "homepage": "https://github.com/viivue/easy-hash",
   "repository": {
     "type": "git",
-    "url": "git@github.com:phucbm/easy-hash"
+    "url": "git@github.com:viivue/easy-hash"
   },
   "author": {
-    "name": "phucbm",
-    "url": "https://github.com/phucbm"
+    "name": "viivue",
+    "url": "https://github.com/viivue"
   },
   "keywords": [
-    "phucbm",
+    "viivue",
     "javascript",
     "es6"
   ],
