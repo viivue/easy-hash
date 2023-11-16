@@ -81,7 +81,8 @@ class HashManager{
     /**
      * Get current hash
      */
-    getHash(){
+
+    getHash({hasSharp = true} = {}){
         // return window.location.hash;
         if(window.location.hash === ''){
             return '';
@@ -99,6 +100,11 @@ class HashManager{
 
         // params is an array
         // return convertArrayToObject(splitParams);
+
+
+        if(hasSharp === false){
+            return window.location.hash.split("#")[1];
+        }
 
         return window.location.hash;
     }

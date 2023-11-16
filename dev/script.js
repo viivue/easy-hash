@@ -46,6 +46,7 @@ document.querySelectorAll('.btn').forEach(btn => {
         switch(state){
             case "add":
                 EasyHash.add(inputAddHash.value);
+                EasyHash.getHash({hasSharp: false});
                 break;
             case "remove":
                 EasyHash.remove();
