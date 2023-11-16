@@ -34,11 +34,9 @@ function highlightLabel(){
 }
 
 
-HashManager.on('change', () => {
+EasyHash.on('change', () => {
     highlightLabel()
-    console.log(HashManager)
 })
-
 
 const inputAddHash = document.querySelector('input[name="add-hash"]');
 document.querySelectorAll('.btn').forEach(btn => {
@@ -47,11 +45,10 @@ document.querySelectorAll('.btn').forEach(btn => {
 
         switch(state){
             case "add":
-                // HashManager.add(inputAddHash.value);
-                HashManager.add({a: 1, b: 2});
+                EasyHash.add(inputAddHash.value);
                 break;
             case "remove":
-                HashManager.remove();
+                EasyHash.remove();
                 break;
         }
     })

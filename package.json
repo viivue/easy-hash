@@ -3,7 +3,7 @@
   "outputFilename": "easy-hash",
   "prettyName": "Easy Hash",
   "codeName": "EasyHash",
-  "version": "beta",
+  "version": "0.0.1",
   "description": "Customizing hash is easier than ever.",
   "homepage": "https://github.com/phucbm/easy-hash",
   "repository": {

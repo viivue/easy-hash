@@ -1,5 +1,5 @@
 import {fireEvent} from "./helpers";
-import {convertObjectToQueryString} from "./utils";
+import {convertArrayToObject, convertObjectToQueryString} from "./utils";
 
 /**
  * Private class
@@ -9,8 +9,17 @@ class HashManager{
         this.callbacks = [];
         this.data = {
             previousHash: "",
-            currentHash: ""
+            currentHash: this.getHash()
         };
+
+        // get current hash value
+        window.addEventListener("hashchange", () => {
+            // update data
+            this.data.previousHash = this.data.currentHash;
+            this.data.currentHash = this.getHash();
+
+            fireEvent(this);
+        })
     }
 
     /**
@@ -73,23 +82,25 @@ class HashManager{
      * Get current hash
      */
     getHash(){
-        return window.location.hash;
-        // if(window.location.hash === ''){
-        //     return '';
-        // }
-        //
+        // return window.location.hash;
+        if(window.location.hash === ''){
+            return '';
+        }
+
         // const getParams = window.location.hash.split("#");
-        //
-        // // params contains '&' => object, not contain '&' => string
+
+        // params contains '&' => object, not contain '&' => string
         // const splitParams = getParams[1].split('&') ? getParams[1].split('&') : getParams[1];
-        //
-        // // params is a string
+
+        // params is a string
         // if(splitParams.length === 1){
         //     return `#${splitParams[0]}`;
         // }
-        //
-        // // params is an array
+
+        // params is an array
         // return convertArrayToObject(splitParams);
+
+        return window.location.hash;
     }
 
     on(type, callback){
