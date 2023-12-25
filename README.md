@@ -1,51 +1,60 @@
-#  Wellii - Webpack Library Boilerplate
+# Easy Hash
 
-A boilerplate to develop JavaScript library with:
+[![release](https://badgen.net/github/release/viivue/easy-hash/)](https://github.com/viivue/easy-hash/releases/latest)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/84c6ed49-b3f3-450b-857a-ec904db724b7/deploy-status)](https://app.netlify.com/sites/easy-hash/deploys)
 
-- UMD version
-- NPM package
-- Multiple dev servers
+> Demo: https://easy-hash.netlify.app
 
-> CSS file will not be included in production build.
+## Getting started
 
-## Examples
+### CDN
 
-- Production
-  site: https://wellii.netlify.app [![Netlify Status](https://api.netlify.com/api/v1/badges/3dcd8303-517a-4297-b027-98b9adcc7c5c/deploy-status)](https://app.netlify.com/sites/wellii/deploys)
-- Dev
-  site: https://wellii-dev.netlify.app [![Netlify Status](https://api.netlify.com/api/v1/badges/9d0e745c-a957-4c34-923f-d74852270174/deploy-status)](https://app.netlify.com/sites/wellii-dev/deploys)
-- Distribution files: [/dist](https://github.com/phucbm/webpack-library-boilerplate/tree/main/dist)
+```html
 
-## Todos
+<script src="https://cdn.jsdelivr.net/gh/viivue/easy-hash@0.0.1/dist/easy-hash.min.js"></script>
+```
 
-1. Update `package.json`
-    - `name`: output file name
-    - `prettyName`: output library name
-    - ...
-2. Library script start with `src/_index.js`, **do not rename this file**.
-3. Edit dev site in folder `dev`
-4. Edit production site in folder `web`
+## Initialize
+
+We can use this library promptly after import it into your project
+
+## Methods
+
+| Usage                              | Description                                                                                            | 
+|------------------------------------|--------------------------------------------------------------------------------------------------------|
+| `EasyHash.add(hash)`               | Add new hash to the URL and replace the current one if any (containing "#" or not are both acceptable) |
+| `EasyHash.remove()`                | Remove current hash value                                                                              |
+| `EasyHash.getHash()`               | Get current hash                                                                                       |
+| `EasyHash.on(eventName, callback)` | Assign events                                                                                          |
+
+## Events
+
+| Name       | Description         | 
+|------------|---------------------|
+| `"change"` | After value changed |
+
+```js
+EasyHash.on('change', () => {
+    // do something
+})
+// the same as window.addEventListener('hashchange',()=>{})
+```
 
 ## Deployment
+
 ```shell
-# Install
-npm i
-
-# Run production server
-npm run web
-
 # Run dev server
 npm run dev
 
-# Generate UMD and module version
-npm run prod
-
-# Generate UMD and module version then publish NPM package
-npm run publish
-
-# Build production site
+# Build dev site
 npm run build
 
-# Build dev site
-npm run build-dev
+# Generate production files
+npm run prod
 ```
+
+## License
+
+[MIT License](https://github.com/viivue/easy-hash/blob/main/LICENSE)
+
+Copyright (c) 2023 ViiVue

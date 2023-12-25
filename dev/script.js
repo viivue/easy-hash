@@ -16,11 +16,43 @@ const packageInfo = require('../package.json');
  */
 // update title
 const title = `${packageInfo.prettyName} v${packageInfo.version}`;
-document.title = `[DEV] ${title} - ${packageInfo.description}`;
+document.title = `${title}`;
 document.querySelector('[data-title]').innerHTML = title;
-document.querySelector('[data-description]').innerHTML = packageInfo.description;
 
 /**
  * Lib usage
  */
-Wellii.init();
+
+function highlightLabel(){
+    const label = document.querySelector(`[data-event=onHashchange]`);
+
+    label.classList.add('active');
+
+    setTimeout(() => {
+        label.classList.remove('active');
+    }, 300);
+}
+
+
+EasyHash.on('change', () => {
+    highlightLabel()
+})
+
+const inputAddHash = document.querySelector('input[name="add-hash"]');
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+        const state = btn.getAttribute('data-btn');
+
+        switch(state){
+            case "add":
+                EasyHash.add(inputAddHash.value);
+                EasyHash.getHash({hasSharp: false});
+                break;
+            case "remove":
+                EasyHash.remove();
+                break;
+        }
+    })
+});
+
+

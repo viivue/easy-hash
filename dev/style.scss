@@ -1,1 +1,42 @@
 /* Stylesheet */
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+/**
+ * Input
+ */
+input {
+  border: 1px solid #e0e7ee;
+  border-radius: 5px;
+  height: 35px;
+  width: 150px;
+  padding: 5px 15px;
+}
+
+/**
+ * Events
+ */
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  label {
+    background-color: #e0e7ee;
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    &.active {
+      background-color: dodgerblue;
+      color: #fff;
+    }
+  }
+}

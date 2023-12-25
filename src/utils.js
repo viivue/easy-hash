@@ -106,3 +106,29 @@ export function uniqueId(prefix = ''){
     return prefix + (+new Date()).toString(16) +
         (Math.random() * 100000000 | 0).toString(16);
 }
+
+/**
+ * Convert array to object
+ * [a, 1, b, 2] => {a: 1, b: 2}
+ */
+export function convertArrayToObject(arrayParams){
+    // Covert array to object
+    const values = [];
+    arrayParams.forEach(param => {
+        const newParam = param.split("=");
+        values.push({"key": newParam[0], "value": newParam[1]})
+    })
+    return values.reduce((obj, item) => Object.assign(obj, {[item.key]: item.value}), {});
+}
+
+/**
+ * Convert object to query string
+ * {a: 1, b: 2} => a=1&b=2
+ */
+export function convertObjectToQueryString(hash){
+    const hashObject = [];
+    for(const [key, value] of Object.entries(hash)){
+        hashObject.push(`${key}=${value}`);
+    }
+    return hashObject.toString().replace(",", "&");
+}
